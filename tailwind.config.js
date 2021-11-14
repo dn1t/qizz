@@ -5,10 +5,15 @@ module.exports = {
     fontFamily: {
       sans: ['"Pretendard"', 'sans-serif'],
     },
-    extend: {},
+    extend: {
+      letterSpacing: {
+        evenwider: '.5rem',
+        damnwide: '1rem',
+      },
+    },
   },
   variants: {
     extend: {},
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [],
 };

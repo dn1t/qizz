@@ -6,14 +6,18 @@
   "author": "thoratica <me@tica.fun>",
   "scripts": {
     "start": "concurrently --raw \"yarn parcel src/index.html\" \"wait-on http://localhost:1234 && electron -r ts-node/register src/electron.ts\"",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "postuninstall": "patch-package"
   },
   "license": "MIT",
   "dependencies": {
+    "mobx": "^6.3.7",
+    "mobx-react-lite": "^3.2.2",
     "node-fetch": "^2.6.6",
     "node-kakao": "storycraft/node-kakao",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-hot-toast": "^2.1.1"
   },
   "devDependencies": {
     "@headlessui/react": "^1.4.2",

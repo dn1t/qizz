@@ -38,3 +38,72 @@ index 778a124..d4a83c7 100644
  
      if (!res.ok) {
        throw new Error(`Web request failed with status ${res.status} ${res.statusText}`);
+diff --git a/node_modules/node-kakao/src/network/socket/index.ts b/node_modules/node-kakao/src/network/socket/index.ts
+index 360406e..15792b9 100644
+--- a/node_modules/node-kakao/src/network/socket/index.ts
++++ b/node_modules/node-kakao/src/network/socket/index.ts
+@@ -23,17 +23,8 @@ export interface NetSocketOptions {
+  * @param {NetSocketOptions} option
+  */
+ export async function createTCPSocket(option: NetSocketOptions): Promise<BiStream> {
+-  if (isNode()) {
+-    const { NodeSocket } = await import('./node-net-socket');
+-    return NodeSocket.connect(option);
+-  } else if (isDeno()) {
+-    const { DenoSocket } = await import('./deno-net-socket');
+-    return DenoSocket.connect(option);
+-  } else if (isBrowser()) {
+-    throw new Error('Browser environments are not supported');
+-  } else {
+-    throw new Error('Unknown environment');
+-  }
++  const { NodeSocket } = await import('./node-net-socket');
++  return NodeSocket.connect(option);
+ }
+ 
+ /**
+@@ -43,16 +34,6 @@ export async function createTCPSocket(option: NetSocketOptions): Promise<BiStrea
+  * @param {NetSocketOptions} option
+  */
+ export async function createTLSSocket(option: NetSocketOptions): Promise<BiStream> {
+-  if (isNode()) {
+-    const { NodeSocket } = await import('./node-net-socket');
+-    return NodeSocket.connectTls(option);
+-  } else if (isDeno()) {
+-    // TODO
+-    const { DenoSocket } = await import('./deno-net-socket');
+-    return DenoSocket.connectTls(option);
+-  } else if (isBrowser()) {
+-    throw new Error('Browser environments are not supported');
+-  } else {
+-    throw new Error('Unknown environment');
+-  }
++  const { NodeSocket } = await import('./node-net-socket');
++  return NodeSocket.connectTls(option);
+ }
+diff --git a/node_modules/node-kakao/src/network/socket/node-net-socket.ts b/node_modules/node-kakao/src/network/socket/node-net-socket.ts
+index 3b44d31..1562a35 100644
+--- a/node_modules/node-kakao/src/network/socket/node-net-socket.ts
++++ b/node_modules/node-kakao/src/network/socket/node-net-socket.ts
+@@ -1,3 +1,5 @@
++// @ts-nocheck
++
+ /*
+  * Created on Sun Jan 17 2021
+  *
+@@ -5,12 +7,13 @@
+  */
+ 
+ import { BiStream } from '../../stream';
+-import * as net from 'net';
+-import * as tls from 'tls';
+ import { NetSocketOptions } from '.';
+ import { PromiseSocket } from 'promise-socket';
+ import { ChunkedArrayBufferList } from '../chunk';
+ 
++const net = window.require('net')
++const tls = window.require('tls')
++
+ export class NodeSocket implements BiStream {
+   private _socket: PromiseSocket<net.Socket>;
+   private _ended: boolean;
