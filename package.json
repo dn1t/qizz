@@ -1,0 +1,43 @@
+{
+  "name": "qizz",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/thoratica/qizz.git",
+  "author": "thoratica <me@tica.fun>",
+  "scripts": {
+    "start": "concurrently --raw \"yarn parcel src/index.html\" \"wait-on http://localhost:1234 && electron -r ts-node/register src/electron.ts\"",
+    "postinstall": "patch-package"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^2.6.6",
+    "node-kakao": "storycraft/node-kakao",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@headlessui/react": "^1.4.2",
+    "@heroicons/react": "^1.0.5",
+    "@tailwindcss/forms": "^0.3.4",
+    "@types/react": "^17.0.34",
+    "@types/react-dom": "^17.0.11",
+    "autoprefixer": "^10.4.0",
+    "concurrently": "^6.4.0",
+    "cssnano": "^5.0.10",
+    "electron": "^15.3.1",
+    "electron-builder": "^22.13.1",
+    "parcel": "^2.0.1",
+    "patch-package": "^6.4.7",
+    "postcss": "^8.3.11",
+    "postcss-import": "^14.0.2",
+    "tailwindcss": "^2.2.19",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4",
+    "wait-on": "^6.0.0"
+  },
+  "targets": {
+    "main": {
+      "context": "node"
+    }
+  }
+}

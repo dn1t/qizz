@@ -1,0 +1,40 @@
+diff --git a/node_modules/node-kakao/package.json b/node_modules/node-kakao/package.json
+index 32d43e3..8fa12fb 100644
+--- a/node_modules/node-kakao/package.json
++++ b/node_modules/node-kakao/package.json
+@@ -2,12 +2,7 @@
+   "name": "node-kakao",
+   "version": "4.5.0",
+   "description": "Loco protocol compatible library",
+-  "main": "./dist/index.js",
+-  "exports": {
+-    ".": "./dist/index.js",
+-    "./*": "./dist/*/index.js"
+-  },
+-  "types": "./dist/index.d.ts",
++  "main": "./src/index.ts",
+   "files": [
+     "dist",
+     "dist_esm",
+diff --git a/node_modules/node-kakao/src/api/fetch-web-client.ts b/node_modules/node-kakao/src/api/fetch-web-client.ts
+index 778a124..d4a83c7 100644
+--- a/node_modules/node-kakao/src/api/fetch-web-client.ts
++++ b/node_modules/node-kakao/src/api/fetch-web-client.ts
+@@ -63,7 +63,7 @@ export class FetchWebClient implements WebClient, HeaderDecorator {
+       reqData.body = convertToFormData(form);
+     }
+ 
+-    const res = await fetch(url, reqData);
++    const res = await window.require('node-fetch')(url, reqData);
+ 
+     if (!res.ok) {
+       throw new Error(`Web request failed with status ${res.status} ${res.statusText}`);
+@@ -85,7 +85,7 @@ export class FetchWebClient implements WebClient, HeaderDecorator {
+       reqData.body = this.convertToMultipart(form);
+     }
+ 
+-    const res = await fetch(url, reqData);
++    const res = await window.require('node-fetch')(url, reqData);
+ 
+     if (!res.ok) {
+       throw new Error(`Web request failed with status ${res.status} ${res.statusText}`);
