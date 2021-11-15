@@ -7,7 +7,8 @@ module.exports = {
     },
     extend: {
       letterSpacing: {
-        evenwider: '.5rem',
+        evenwider: '.2rem',
+        evenevenwider: '.5rem',
         damnwide: '1rem',
       },
     },

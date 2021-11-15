@@ -1,11 +1,14 @@
 import { observer } from 'mobx-react-lite';
-import { KnownAuthStatusCode } from 'node-kakao';
+import { DefaultConfiguration, KnownAuthStatusCode, ServiceApiClient } from 'node-kakao';
+import { SessionWebClient } from 'node-kakao/src/api';
+import { FetchWebClient } from 'node-kakao/src/api/fetch-web-client';
 import React, { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import store from '../store';
 
 const Login = observer(() => {
   const { clientObject } = store;
+  const { client, authApi } = clientObject;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [forceLogin, setForceLogin] = useState(false);
@@ -15,7 +18,7 @@ const Login = observer(() => {
   const registerDevice = async (e = email, p = password) =>
     await toast.promise(
       new Promise(async (res, rej) => {
-        const registerDeviceRes = await clientObject.authApi.registerDevice({ email: e, password: p }, passcode, true);
+        const registerDeviceRes = await authApi.registerDevice({ email: e, password: p }, passcode, true);
         if (!registerDeviceRes.success) return rej(KnownAuthStatusCode[registerDeviceRes.status] ?? registerDeviceRes.status);
         return res(undefined);
       }),
@@ -25,14 +28,15 @@ const Login = observer(() => {
   const login = async (e = email, p = password, isAuto = false) =>
     await toast.promise(
       new Promise(async (res, rej) => {
-        const apiLoginRes = await clientObject.authApi.login({ email: e, password: p }, forceLogin);
+        const apiLoginRes = await authApi.login({ email: e, password: p }, forceLogin);
         if (!apiLoginRes.success) return rej(KnownAuthStatusCode[apiLoginRes.status] ?? apiLoginRes.status);
 
         clientObject.credential = apiLoginRes.result;
-        const loginRes = await clientObject.client.login(apiLoginRes.result);
+        const loginRes = await client.login(apiLoginRes.result);
         if (!loginRes.success) return rej(KnownAuthStatusCode[loginRes.status] ?? loginRes.status);
 
         clientObject.logon = true;
+        clientObject.serviceApi = new ServiceApiClient(new SessionWebClient(new FetchWebClient('https', 'katalk.kakao.com'), apiLoginRes.result, DefaultConfiguration));
         return res(undefined);
       }),
       { loading: `${isAuto ? '자동 로그인' : '로그인'}을 하는 중입니다...`, success: `${isAuto ? '자동 로그인' : '로그인'}을 성공했습니다!`, error: (err) => `에러: ${err}` }
@@ -55,7 +59,7 @@ const Login = observer(() => {
     <div className='flex h-screen'>
       <div className='bg-gradient-to-b from-indigo-600 to-indigo-500 flex items-center justify-center w-1/3'>
         <div className='w-2/3 flex flex-col'>
-          <div className='text-white text-xl font-bold tracking-evenwider'>QIZZ</div>
+          <div className='text-white text-xl font-bold tracking-evenevenwider'>QIZZ</div>
           <div className='text-white text-3xl font-bold' style={{ wordBreak: 'keep-all' }}>
             새로운 카카오톡 클라이언트
           </div>

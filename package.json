@@ -7,7 +7,7 @@
   "scripts": {
     "start": "concurrently --raw \"yarn parcel src/index.html\" \"wait-on http://localhost:1234 && electron -r ts-node/register src/electron.ts\"",
     "postinstall": "patch-package",
-    "postuninstall": "patch-package"
+    "uninstall": "patch-package"
   },
   "license": "MIT",
   "dependencies": {
@@ -16,12 +16,13 @@
     "node-fetch": "^2.6.6",
     "node-kakao": "storycraft/node-kakao",
     "react": "^17.0.2",
+    "react-bootstrap-icons": "^1.6.1",
+    "react-custom-scrollbars-2": "^4.4.0",
     "react-dom": "^17.0.2",
     "react-hot-toast": "^2.1.1"
   },
   "devDependencies": {
     "@headlessui/react": "^1.4.2",
-    "@heroicons/react": "^1.0.5",
     "@tailwindcss/forms": "^0.3.4",
     "@types/react": "^17.0.34",
     "@types/react-dom": "^17.0.11",
