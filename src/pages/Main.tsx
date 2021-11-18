@@ -1,9 +1,10 @@
+import type { BrowserWindow } from 'electron';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { OAuthCredential, ServiceApiClient } from 'node-kakao';
 import { FriendListStruct } from 'node-kakao/src/api/struct';
 import React, { useState } from 'react';
-import { ChatFill, GearFill, Github, PersonFill } from 'react-bootstrap-icons';
+import { ChatFill, GearFill, Github, PersonFill, XCircleFill } from 'react-bootstrap-icons';
 import store from '../store';
 import qs from 'querystring';
 import axios from 'axios';
@@ -12,6 +13,9 @@ import profileLight from '../profile_light.png';
 import profileDark from '../profile_dark.png';
 
 const { shell } = window.require('electron');
+const { getCurrentWindow } = window.require('@electron/remote');
+
+const win = getCurrentWindow() as BrowserWindow;
 
 const requestFriendList = async (credential: OAuthCredential): Promise<FriendListStruct> =>
   (
@@ -86,8 +90,11 @@ const Main = observer(() => {
           >
             <GearFill className='text-white h-6 w-5' />
           </div>
-          <div className='px-3 pt-3 pb-5 mt-auto w-full flex justify-center cursor-pointer' onClick={() => shell.openExternal('https://github.com/thoratica/qizz')}>
+          <div className='px-3 pt-4 pb-2 mt-auto w-full flex justify-center cursor-pointer' onClick={() => shell.openExternal('https://github.com/thoratica/qizz')}>
             <Github className='text-white h-6 w-5' />
+          </div>
+          <div className='px-3 pt-2 pb-5 w-full flex justify-center' onClick={() => win.close()}>
+            <XCircleFill className='text-white h-6 w-5' />
           </div>
         </div>
       </div>

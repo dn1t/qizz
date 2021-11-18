@@ -2,6 +2,10 @@ import { app, BrowserWindow } from 'electron';
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
+const remote = require('@electron/remote/main');
+
+remote.initialize();
+
 const createWindow = () => {
   const win = new BrowserWindow({
     height: 720,
@@ -17,6 +21,7 @@ const createWindow = () => {
   win.loadURL('http://localhost:1234');
 
   win.webContents.openDevTools();
+  remote.enable(win.webContents);
 };
 
 app.commandLine.appendSwitch('disable-http-cache');

@@ -11,6 +11,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@electron/remote": "^2.0.1",
     "@types/node": "^16.11.7",
     "it-all": "^1.0.6",
     "mobx": "^6.3.7",
