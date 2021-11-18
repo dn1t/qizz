@@ -1,11 +1,11 @@
 import { observable } from 'mobx';
-import { AuthApiClient, DefaultConfiguration, OAuthCredential, ServiceApiClient, TalkClient } from 'node-kakao';
+import { AuthApiClient, Chatlog, DefaultConfiguration, Long, OAuthCredential, ServiceApiClient, TalkChannel, TalkClient } from 'node-kakao';
 import { FetchWebClient } from 'node-kakao/src/api/fetch-web-client';
 import { FriendStruct, MoreSettingsStruct } from 'node-kakao/src/api/struct';
 import { Win32XVCProvider } from 'node-kakao/src/api/xvc';
-import { version } from '../../package.json';
+import { version } from '../package.json';
 
-const clientObject = observable<{
+const storeObject = observable<{
   client: TalkClient;
   authApi: AuthApiClient;
   serviceApi: ServiceApiClient | undefined;
@@ -15,6 +15,11 @@ const clientObject = observable<{
   setLogon: (logon: boolean) => void;
   moreSettings: MoreSettingsStruct | undefined;
   friendList: FriendStruct[] | undefined;
+  selected: { category: 'friend' | 'chat' | 'setting' | 'blank'; id?: Long };
+  category: 'friends' | 'chats' | 'settings';
+  channelList: TalkChannel[];
+  chatList: { [id: string]: Chatlog[] };
+  darkmode: boolean;
 }>({
   client: new TalkClient(),
   authApi: new AuthApiClient(new FetchWebClient('https', 'katalk.kakao.com'), `qizz-${version}`, 'loco', DefaultConfiguration, Win32XVCProvider),
@@ -29,6 +34,11 @@ const clientObject = observable<{
   },
   moreSettings: undefined,
   friendList: undefined,
+  selected: { category: 'blank' },
+  category: 'friends',
+  channelList: [],
+  chatList: {},
+  darkmode: false,
 });
 
-export default clientObject;
+export default storeObject;

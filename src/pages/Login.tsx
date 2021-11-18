@@ -7,8 +7,7 @@ import toast from 'react-hot-toast';
 import store from '../store';
 
 const Login = observer(() => {
-  const { clientObject } = store;
-  const { client, authApi } = clientObject;
+  const { client, authApi } = store;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [forceLogin, setForceLogin] = useState(false);
@@ -31,12 +30,12 @@ const Login = observer(() => {
         const apiLoginRes = await authApi.login({ email: e, password: p }, forceLogin);
         if (!apiLoginRes.success) return rej(KnownAuthStatusCode[apiLoginRes.status] ?? apiLoginRes.status);
 
-        clientObject.credential = apiLoginRes.result;
+        store.credential = apiLoginRes.result;
         const loginRes = await client.login(apiLoginRes.result);
         if (!loginRes.success) return rej(KnownAuthStatusCode[loginRes.status] ?? loginRes.status);
 
-        clientObject.logon = true;
-        clientObject.serviceApi = new ServiceApiClient(new SessionWebClient(new FetchWebClient('https', 'katalk.kakao.com'), apiLoginRes.result, DefaultConfiguration));
+        store.logon = true;
+        store.serviceApi = new ServiceApiClient(new SessionWebClient(new FetchWebClient('https', 'katalk.kakao.com'), apiLoginRes.result, DefaultConfiguration));
         return res(undefined);
       }),
       { loading: `${isAuto ? '자동 로그인' : '로그인'}을 하는 중입니다...`, success: `${isAuto ? '자동 로그인' : '로그인'}을 성공했습니다!`, error: (err) => `에러: ${err}` }
