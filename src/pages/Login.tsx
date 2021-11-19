@@ -56,7 +56,7 @@ const Login = observer(() => {
 
   return (
     <div className='flex h-screen'>
-      <div className='bg-gradient-to-b from-indigo-600 to-indigo-500 flex items-center justify-center w-1/3'>
+      <div className='bg-gradient-to-b from-indigo-500 to-indigo-500 flex items-center justify-center w-1/3'>
         <div className='w-2/3 flex flex-col'>
           <div className='text-white text-xl font-bold tracking-evenevenwider'>QIZZ</div>
           <div className='text-white text-3xl font-bold' style={{ wordBreak: 'keep-all' }}>
@@ -78,7 +78,7 @@ const Login = observer(() => {
             <label className='flex flex-col mb-1'>
               <span className='font-medium'>이메일 주소</span>
               <input
-                className='mt-0.5 bg-gray-100 focus:bg-gray-50 border border-gray-100 focus:border-indigo-600 ring-0 focus:ring-4 focus:ring-indigo-200 focus:outline-none px-4 py-2.5 rounded-md transition-all'
+                className='mt-0.5 bg-gray-100 focus:bg-gray-50 border border-gray-100 focus:border-indigo-500 ring-0 focus:ring-4 focus:ring-indigo-200 focus:outline-none px-4 py-2.5 rounded-md transition-all'
                 type='email'
                 placeholder='foo@kakao.com'
                 value={email}
@@ -89,7 +89,7 @@ const Login = observer(() => {
             <label className='flex flex-col mb-1'>
               <span className='font-medium'>비밀번호</span>
               <input
-                className='mt-0.5 bg-gray-100 focus:bg-gray-50 border border-gray-100 focus:border-indigo-600 ring-0 focus:ring-4 focus:ring-indigo-200 focus:outline-none px-4 py-2.5 rounded-md transition-all'
+                className='mt-0.5 bg-gray-100 focus:bg-gray-50 border border-gray-100 focus:border-indigo-500 ring-0 focus:ring-4 focus:ring-indigo-200 focus:outline-none px-4 py-2.5 rounded-md transition-all'
                 type='password'
                 placeholder='••••••••'
                 value={password}
@@ -98,7 +98,7 @@ const Login = observer(() => {
               />
             </label>
           </div>
-          <button className='mt-3 bg-indigo-600 px-4 py-2.5 rounded-md text-white font-medium border-indigo-600 focus:ring-4 focus:ring-indigo-200 focus:outline-none'>로그인</button>
+          <button className='mt-3 bg-indigo-500 px-4 py-2.5 rounded-md text-white font-medium border-indigo-500 focus:ring-4 focus:ring-indigo-200 focus:outline-none'>로그인</button>
         </form>
       </div>
     </div>
