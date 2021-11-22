@@ -15,14 +15,9 @@ const App = observer(() => {
     async () => {
       store.channelList = Array.from(client.channelList.all());
 
-      console.log(store.channelList);
-
       for (const channel of store.channelList) {
         const syncChatListRes = await all(channel.syncChatList(channel.info.lastChatLogId));
-
         store.chatList[channel.channelId.toString()] = syncChatListRes.flatMap((res) => (res.success ? res.result : []));
-
-        console.log(channel.getDisplayName(), Array.from(channel.getAllUserInfo()).length);
       }
     }
   );

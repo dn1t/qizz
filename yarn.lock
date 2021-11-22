@@ -1166,6 +1166,18 @@
   dependencies:
     "@types/yargs-parser" "*"
 
+"@virtuoso.dev/react-urx@^0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@virtuoso.dev/react-urx/-/react-urx-0.2.8.tgz#344c5559dca3a7157f34eb9d9c5e7be6f6291d24"
+  integrity sha512-QV9ZJ9Yla88ySgN+DuHLDYoQa0UDRrEq88sLqQESZUWzLughrkpg1BLmQT7FuiU2M78A+rQ9DR3GBlWrJIx+Bw==
+  dependencies:
+    "@virtuoso.dev/urx" "^0.2.8"
+
+"@virtuoso.dev/urx@^0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@virtuoso.dev/urx/-/urx-0.2.8.tgz#182884939b2a5420839c48e317059cf265210f84"
+  integrity sha512-40uiTn5z1J/7at9Ao/aesyFhE7sS1cpb2MrbP/JSS6dcLMsQJcAZGedCY3bKkyjANH9DX/ciUpkpmT3TXmUBOQ==
+
 "@yarnpkg/lockfile@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
@@ -4127,6 +4139,16 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
+linkify-react@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/linkify-react/-/linkify-react-3.0.3.tgz#97d420694cb173e46f75fb2b7de6f3887059ad4f"
+  integrity sha512-CdERZyocGB+2sHYKMKltAWy5TyelgocnMI7SU5vdT0ojtZd1u8sRuntXrxjA3tvgTirtLm2nD7gDdJFaVXvDAw==
+
+linkifyjs@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/linkifyjs/-/linkifyjs-3.0.3.tgz#51ea2160b4c60c2c87c27757a1e9eacd422c6076"
+  integrity sha512-ba5opS5wRHSbDC8VaiDdN14nPGm6LqyRsIPQZGG4qXV4scFdrPneT/uoZOaq9QAPBf6W9I9D/6tNSzWH//815Q==
+
 lmdb-store@^1.5.5:
   version "1.6.13"
   resolved "https://registry.yarnpkg.com/lmdb-store/-/lmdb-store-1.6.13.tgz#ae4c9d4faccbc07aaf47a79664f703799fc61221"
@@ -5465,6 +5487,14 @@ react-refresh@^0.9.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.9.0.tgz#71863337adc3e5c2f8a6bfddd12ae3bfe32aafbf"
   integrity sha512-Gvzk7OZpiqKSkxsQvO/mbTN1poglhmAV7gR/DdIrRrSMXraRQQlfikRJOr3Nb9GTMPC5kof948Zy6jJZIFtDvQ==
 
+react-virtuoso@^2.2.7:
+  version "2.2.7"
+  resolved "https://registry.yarnpkg.com/react-virtuoso/-/react-virtuoso-2.2.7.tgz#3aa7243ed79ec6257f0de30679f64e9614533d2e"
+  integrity sha512-zNfBObEpCrf3csKP1jtfrfh5b93ZLgizHFEHDGyBNC62IyYYMHFrMxvt+b7pEH9eCLxS2+LQfV2efNyf4VegDg==
+  dependencies:
+    "@virtuoso.dev/react-urx" "^0.2.8"
+    "@virtuoso.dev/urx" "^0.2.8"
+
 react@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
@@ -6143,7 +6173,14 @@ symbol-tree@^3.2.2:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
 
-tailwindcss@^2.2.19:
+tailwind-scrollbar@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/tailwind-scrollbar/-/tailwind-scrollbar-1.3.1.tgz#271d7c405bcddb7b5f5f77d7f43758c89e389767"
+  integrity sha512-FeYuLxLtCRMO4PmjPJCzm5wQouFro2BInZXKPxqg54DR/55NAHoS8uNYWMiRG5l6qsLkWBfVEM34gq2XAQUwVg==
+  dependencies:
+    tailwindcss ">1.9.6"
+
+tailwindcss@>1.9.6, tailwindcss@^2.2.19:
   version "2.2.19"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-2.2.19.tgz#540e464832cd462bb9649c1484b0a38315c2653c"
   integrity sha512-6Ui7JSVtXadtTUo2NtkBBacobzWiQYVjYW0ZnKaP9S1ZCKQ0w7KVNz+YSDI/j7O7KCMHbOkz94ZMQhbT9pOqjw==

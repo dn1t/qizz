@@ -5,7 +5,7 @@ import { FriendStruct, MoreSettingsStruct } from 'node-kakao/src/api/struct';
 import { Win32XVCProvider } from 'node-kakao/src/api/xvc';
 import { version } from '../package.json';
 
-const storeObject = observable<{
+const store = observable<{
   client: TalkClient;
   authApi: AuthApiClient;
   serviceApi: ServiceApiClient | undefined;
@@ -41,4 +41,4 @@ const storeObject = observable<{
   darkmode: false,
 });
 
-export default storeObject;
+export default store;
