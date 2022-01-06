@@ -1,9 +1,11 @@
-import { observable } from 'mobx';
+import { configure, observable } from 'mobx';
 import { AuthApiClient, Chatlog, DefaultConfiguration, Long, OAuthCredential, ServiceApiClient, TalkChannel, TalkClient } from 'node-kakao';
 import { FetchWebClient } from 'node-kakao/src/api/fetch-web-client';
 import { FriendStruct, MoreSettingsStruct } from 'node-kakao/src/api/struct';
 import { Win32XVCProvider } from 'node-kakao/src/api/xvc';
 import { version } from '../package.json';
+
+configure({ enforceActions: 'never' });
 
 const store = observable<{
   client: TalkClient;

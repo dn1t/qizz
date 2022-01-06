@@ -1,7 +1,8 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import store from '../store';
 
-const TitleBar = () => {
+const TitleBar = observer(() => {
   if (store.selected.category === 'friend') {
     return (
       <div className='w-full bg-white rounded-b-xl px-1 pt-3 drag'>
@@ -23,6 +24,6 @@ const TitleBar = () => {
   } else {
     return <div className='pb-4'></div>;
   }
-};
+});
 
 export default TitleBar;

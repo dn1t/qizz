@@ -13,6 +13,10 @@ const App = observer(() => {
   reaction(
     () => store.logon,
     async () => {
+      client.on('chat', (data, channel) => {
+        store.chatList[channel.channelId.toString()] = [...store.chatList[channel.channelId.toString()], data.chat];
+      });
+
       store.channelList = Array.from(client.channelList.all());
 
       for (const channel of store.channelList) {
@@ -21,6 +25,9 @@ const App = observer(() => {
       }
     }
   );
+
+  // @ts-ignore
+  window.store = store
 
   return (
     <>

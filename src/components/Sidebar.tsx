@@ -6,13 +6,14 @@ import Scrollbars from 'react-custom-scrollbars-2';
 import store from '../store';
 import profileLight from '../profile_light.png';
 import profileDark from '../profile_dark.png';
+import { observer } from 'mobx-react-lite';
 
 const { shell } = window.require('electron');
 const { getCurrentWindow } = window.require('@electron/remote');
 
 const win = getCurrentWindow() as BrowserWindow;
 
-const Sidebar = () => {
+const Sidebar = observer(() => {
   const [defaultProfileImage] = useState(store.darkmode ? profileDark : profileLight);
 
   return (
@@ -55,7 +56,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div className='flex flex-col w-56 h-full flex-shrink-0 pt-4'>
-        <h1 className='text-2xl font-bold px-3'>{store.category === 'friends' ? '친구' : store.category === 'chats' ? '채팅' : store.category === 'settings' ? '설정' : store.category}</h1>
+        <h1 className='text-2xl font-bold px-3 drag'>{store.category === 'friends' ? '친구' : store.category === 'chats' ? '채팅' : store.category === 'settings' ? '설정' : store.category}</h1>
         <Scrollbars className='flex flex-col h-full w-full mt-2' autoHide>
           <div className='flex flex-col'>
             {store.category === 'friends' ? (
@@ -73,7 +74,13 @@ const Sidebar = () => {
                 <div className='text-gray-400 text-sm font-medium sticky top-0 bg-white px-3 py-2'>친구 {store.friendList?.length ?? 0}명</div>
                 <div className='flex flex-col h-full'>
                   {store.friendList?.map((friend, index) => (
-                    <div className='flex px-3 py-2.5 my-0.5 w-full rounded-xl gap-2 items-center hover:bg-indigo-50 transition-colors' onClick={() => (store.selected = { id: Long.fromString(friend.userId.toString()), category: 'friend' })} key={index}>
+                    <div
+                      className='flex px-3 py-2.5 my-0.5 w-full rounded-xl gap-2 items-center hover:bg-indigo-50 transition-colors'
+                      onClick={() => {
+                        if (store.selected.id?.toString() !== friend.userId.toString()) store.selected = { id: Long.fromString(friend.userId.toString()), category: 'friend' };
+                      }}
+                      key={index}
+                    >
                       <div className='h-10 w-10 rounded-xl bg-cover bg-no-repeat bg-center border-gray-200 flex-shrink-0' style={{ backgroundImage: `url('${friend.fullProfileImageUrl === '' ? defaultProfileImage : friend.fullProfileImageUrl}')` }} />
                       <div className='block w-full max-w-full overflow-hidden'>
                         <div className='leading-none text-sm font-medium truncate'>{friend.nickName}</div>
@@ -85,47 +92,60 @@ const Sidebar = () => {
               </>
             ) : store.category === 'chats' ? (
               <div className='flex flex-col h-full'>
-                {store.channelList.map((channel, index) => {
-                  const chatList = store.chatList[channel.channelId.toString()] ?? [];
-                  const firstFourMemberList = Array.from(channel.getAllUserInfo()).slice(0, 4);
+                {store.channelList
+                  .slice()
+                  .sort(
+                    (a, b) =>
+                      Number((store.chatList[b.channelId.toString()] ?? [])[(store.chatList[b.channelId.toString()]?.length ?? 1) - 1]?.sendAt.toString().padEnd(13, '0')) -
+                      Number((store.chatList[a.channelId.toString()] ?? [])[(store.chatList[a.channelId.toString()]?.length ?? 1) - 1]?.sendAt.toString().padEnd(13, '0'))
+                  )
+                  .map((channel, index) => {
+                    const chatList = store.chatList[channel.channelId.toString()] ?? [];
+                    const firstFourMemberList = Array.from(channel.getAllUserInfo()).slice(0, 4);
 
-                  return (
-                    <div className='flex p-3 my-0.5 w-full rounded-xl gap-2 items-center hover:bg-indigo-50 transition-colors' onClick={() => (store.selected = { id: channel.channelId, category: 'chat' })} key={index}>
-                      <div className='h-10 w-10 rounded-xl bg-contain border-gray-200 flex-shrink-0 flex flex-wrap'>
-                        {firstFourMemberList.map((member, index) => {
-                          return (
-                            <div
-                              className={`${
-                                firstFourMemberList.length === 1
-                                  ? 'h-10 w-10 rounded-xl'
-                                  : `h-5 ${
-                                      firstFourMemberList.length === 2
-                                        ? `w-10 ${index === 0 ? 'rounded-t-xl' : index === 1 ? 'rounded-b-xl' : ''}`
-                                        : firstFourMemberList.length === 3
-                                        ? index === 0
-                                          ? 'w-10 rounded-t-xl'
-                                          : `w-5 ${index === 1 ? 'rounded-bl-xl' : index === 2 ? 'rounded-br-xl' : ''}`
-                                        : firstFourMemberList.length === 4
-                                        ? `w-5 ${index === 0 ? 'rounded-tl-xl' : index === 1 ? 'rounded-tr-xl' : index === 2 ? 'rounded-bl-xl' : index === 3 ? 'rounded-br-xl' : ''}`
-                                        : ''
-                                    }`
-                              } bg-cover bg-no-repeat bg-center border-gray-200 flex-shrink-0`}
-                              style={{ backgroundImage: `url('${member.fullProfileURL === '' ? defaultProfileImage : member.fullProfileURL}')` }}
-                              key={index}
-                            />
-                          );
-                        })}
-                      </div>
-                      <div className='block w-full max-w-full overflow-hidden'>
-                        <div className='flex gap-1'>
-                          <div className='leading-none text-sm font-medium truncate'>{channel.getDisplayName()}</div>
-                          <span className='text-xs text-gray-400 font-normal'>{channel.userCount}</span>
+                    return (
+                      <div
+                        className='flex p-3 my-0.5 w-full rounded-xl gap-2 items-center hover:bg-indigo-50 transition-colors'
+                        onClick={() => {
+                          if (store.selected.id?.toString() !== channel.channelId.toString()) store.selected = { id: channel.channelId, category: 'chat' };
+                        }}
+                        key={index}
+                      >
+                        <div className='h-10 w-10 rounded-xl bg-contain border-gray-200 flex-shrink-0 flex flex-wrap'>
+                          {firstFourMemberList.map((member, index) => {
+                            return (
+                              <div
+                                className={`${
+                                  firstFourMemberList.length === 1
+                                    ? 'h-10 w-10 rounded-xl'
+                                    : `h-5 ${
+                                        firstFourMemberList.length === 2
+                                          ? `w-10 ${index === 0 ? 'rounded-t-xl' : index === 1 ? 'rounded-b-xl' : ''}`
+                                          : firstFourMemberList.length === 3
+                                          ? index === 0
+                                            ? 'w-10 rounded-t-xl'
+                                            : `w-5 ${index === 1 ? 'rounded-bl-xl' : index === 2 ? 'rounded-br-xl' : ''}`
+                                          : firstFourMemberList.length === 4
+                                          ? `w-5 ${index === 0 ? 'rounded-tl-xl' : index === 1 ? 'rounded-tr-xl' : index === 2 ? 'rounded-bl-xl' : index === 3 ? 'rounded-br-xl' : ''}`
+                                          : ''
+                                      }`
+                                } bg-cover bg-no-repeat bg-center border-gray-200 flex-shrink-0`}
+                                style={{ backgroundImage: `url('${member.fullProfileURL === '' ? defaultProfileImage : member.fullProfileURL}')` }}
+                                key={index}
+                              />
+                            );
+                          })}
                         </div>
-                        <div className='leading-none text-xs truncate mt-0.5'>{chatList[chatList.length - 1]?.text}</div>
+                        <div className='block w-full max-w-full overflow-hidden'>
+                          <div className='flex gap-1'>
+                            <div className='leading-none text-sm font-medium truncate'>{channel.getDisplayName()}</div>
+                            <span className='text-xs text-gray-400 font-normal'>{channel.userCount}</span>
+                          </div>
+                          <div className='leading-none text-xs truncate mt-0.5'>{chatList[chatList.length - 1]?.text}</div>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
               </div>
             ) : store.category === 'settings' ? (
               <>
@@ -160,6 +180,6 @@ const Sidebar = () => {
       </div>
     </>
   );
-};
+});
 
 export default Sidebar;
